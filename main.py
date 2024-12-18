@@ -52,7 +52,7 @@ async def channel_handler(event):
 
 
 async def main():
-    print(f"Monitoring sensor channels {','.join(mapping.keys())}")
+    print(f"Monitoring channels: {','.join(mapping.keys())}")
     client.add_event_handler(channel_handler, NewMessage(chats=set(mapping.keys())))
     await client.start()
     print("Monitoring messages...")
