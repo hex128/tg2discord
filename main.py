@@ -41,9 +41,14 @@ async def channel_handler(event):
         channel_username = f"@{channel_username}"
     print(f"New message from {channel_username}: {message}")
 
-    for webhook_url in mapping.get(channel_username, []):
-        resp = await send_to_discord(webhook_url, message)
-        print(resp)
+    if mapping.get(channel_username, {}).get("urls", []):
+        if message in mapping[channel_username].get("stop_list", []):
+            print(f"Message {message} is in stop list, skipping")
+            return
+        for webhook_url in mapping[channel_username]["urls"]:
+            resp = await send_to_discord(webhook_url, message)
+            print(resp)
+
 
 
 async def main():
